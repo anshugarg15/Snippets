@@ -1,0 +1,86 @@
+<snippet>
+	<content><![CDATA[
+struct node
+{
+	ll freq;
+	node* child[2];
+};
+node* getnode()
+{
+	node* ret=new node();
+	ret->child[0]=NULL;
+	ret->child[1]=NULL;
+	ret->freq=0;
+	return ret;
+}
+struct TRIE
+{
+	node *root;
+	TRIE()
+	{
+		root = getnode();
+	}
+	void insert(ll n)
+	{
+		node *temp=root;
+		root->freq++;
+		for(ll j=40;j>=0;--j)
+		{
+			ll onoff=n&(1LL<<j);
+			onoff=(onoff>0);
+			if(temp->child[onoff]==NULL)
+				temp->child[onoff]=getnode();
+			temp=temp->child[onoff];
+			temp->freq++;
+		}
+	}
+	void erase(ll n)
+	{
+		node *temp=root;
+		root->freq--;
+		for(ll j=40;j>=0;--j)
+		{
+			if(n&(1LL<<j))
+			{
+				temp->child[1]->freq--;
+				temp=temp->child[1];
+			}
+			else
+			{
+				 temp->child[0]->freq--;
+				 temp=temp->child[0];
+			}
+		}
+	}
+	ll query(ll n)
+	{
+		node *temp=root;
+		ll ans=0;
+		for(ll j=40;j>=0;--j)
+		{
+			if(n&(1LL<<j))
+			{
+				if(temp->child[0]!=NULL && temp->child[0]->freq)
+				{
+					ans+=1LL<<j;temp=temp->child[0];
+				}
+				else
+					temp=temp->child[1];
+			}
+			else
+			{
+				if(temp->child[1]!=NULL && temp->child[1]->freq)
+					ans+=1LL<<j,temp=temp->child[1];
+				else
+					temp=temp->child[0];
+			}
+		}
+		return ans;
+	}
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>TRIE</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

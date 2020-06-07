@@ -1,0 +1,93 @@
+<snippet>
+	<content><![CDATA[
+const int MAX=300005;
+struct node{
+    node *l,*r;
+    ll sum,val,key,prior,lazy;
+    int size;
+    node ():l(nullptr) , r(nullptr){}
+    node (ll x):val(x), l(nullptr) , r(nullptr){}
+};
+node *newnode(ll k,ll vall)
+{
+    node *ret;
+    ret = new node();
+    ret-> key= k;
+    ret-> val= val;
+    ret-> sum= val;
+    x->prior= uniform_int_distribution<int>(0,1e9)(rng);
+    return ret;
+}
+// Implicit treap 
+struct Treap{
+    node *tree;
+    Treap(): tree(nullptr){}
+    int size(node *a)
+    {
+        return a?a->size():0;
+    }
+    void upd_sz(node *a)
+    {
+        if(a)
+            a->size=(a->l)->size + (a->r)->size +1;
+    }
+    inline void pushdown(node *t)
+    {
+        if(!t || !t->lazy)return ;
+        t->val+=t->lazy;
+        t->sum+=t->lazy * size(t);
+        if(t->l)t->l->lazy+=t->lazy;
+        if(t->r)t->r->lazy+=t->lazy;
+        t->lazy=0;
+    }
+    inline void reset(node* t)
+    {
+        if(t)t->sum=t->val;
+    }
+    inline void combine(node* t)
+    {
+        if(t->l)t->sum+=t->l->sum;
+        if(t->r)t->sum+=t->r->sum;
+    }
+    void operate(node* t)
+    {
+        if(!t)return ;
+        reset(t);
+        combine(t);
+    }
+    void split(node *t,node* &l,node* &r,int pos,int add=0)
+    {
+        if(!t){
+            l=r=nullptr;return ;
+        }
+        pushdown(t);
+        int cpos=size(t->l)+add;
+        if(pos<=cpos)
+            split(t->l,l,t->l,pos,add),r=t;
+        else
+            split(t->r,t->r,r,pos,cpos+1),l=t;
+        upd_sz(t);operate(t);
+    }
+    void merge(node* &t,node* l,node* r)
+    {
+        pushdown(l),pushdown(r);
+        if(!l || !r) t=l?l:r;
+        else if(l->prior>r->prior) merge(l->r,l->r,r),t=l;
+        else merge(r->l,r->l,l),t=r;
+        upd_sz(t);operate(t);
+    }
+    void insert(node* &t,int pos,ll val)
+    {   
+        node* r=newnode(pos,val);
+        node *a,*b,*c;
+        split(t,a,b,pos-1);
+        merge(c,a,r);
+        merge(t,c,b);
+    }
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>treap</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

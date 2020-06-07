@@ -1,0 +1,30 @@
+<snippet>
+	<content><![CDATA[
+#define NCR 
+const int N=100005,MOD=M;
+ll inv[N],fac_inv[N],fac[N];
+void initialize()
+{
+    ll i;
+    inv[1]=1;
+    for(i=2;i<=N-2;i++)
+        inv[i]=(MOD-MOD/i)*inv[MOD%i]%MOD; 
+    fac[0]=fac[1]=1;
+    for(i=2;i<=N-2;i++)
+        fac[i]=i*fac[i-1]%MOD;
+    fac_inv[0]=fac_inv[1]=1;
+    for(i=2;i<=N-2;i++)
+        fac_inv[i]=inv[i]*fac_inv[i-1]%MOD;
+}
+ll ncr(ll n,ll r)
+{
+    if(n<r) return 0;
+    return (fac[n]*fac_inv[r]%MOD)*fac_inv[n-r]%MOD;
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>ncr</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

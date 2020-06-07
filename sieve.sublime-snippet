@@ -1,0 +1,28 @@
+<snippet>
+	<content><![CDATA[
+#define runSieve
+bool notPrime[1000005];
+ll divPrime[1000005];
+void sieve(int n=1000000)
+{
+	int k=sqrt(n);
+	memf(notPrime);
+	notPrime[1]=true;
+	for(int i=2;i<=k;++i)
+	{
+		if(!notPrime[i])
+		{
+			for(int k=i*i;k<=n;k+=i)
+			{
+				notPrime[k]=true;
+				divPrime[k]=i;
+			}
+		}
+	}
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>sieve</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

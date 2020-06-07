@@ -1,0 +1,29 @@
+<snippet>
+	<content><![CDATA[
+int getLIS(vector<int> &a)
+{
+	int n=sz(a);
+	int m[n+1];
+	m[1]=0;
+	int L=1;
+	for(int i=1;i<n;++i)
+	{
+		int lo=1,hi=L;
+		while(lo<=hi)
+		{
+			int mid=(lo+hi)>>1;
+			if(a[m[mid]]<a[i])
+				lo=mid+1;
+			else hi=mid-1;
+		}
+		L=max(L,lo);
+		m[lo]=i;
+	}
+	return L;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>getLIS</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

@@ -1,0 +1,26 @@
+<snippet>
+	<content><![CDATA[
+ll union_seg(vector<pll> &v)
+{
+	size_t n=v.size();
+	vector<pair<ll,bool>> p(n*2);
+	for(int i=0;i<n;++i)
+		p[i*2]={v[i].F,true},p[i*2+1]={v[i].S,false};
+	sort(all(p));
+	int cnt=0;
+	ll ans=0;
+	for(int i=0;i<2*n;++i)
+	{
+		if(i && cnt)
+			ans+=p[i].F-p[i-1].F;
+		if(p[i].S)
+			++cnt;
+		else --cnt;
+	}
+	return ans;
+}]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>union_seg</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

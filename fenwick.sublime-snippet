@@ -1,0 +1,40 @@
+<snippet>
+	<content><![CDATA[
+template<typename T>
+class fenwick {
+public:
+	T a[N],bit[N]{};
+	void build(ll st,ll en)
+	{
+		for(ll i=st;i<=en;++i)
+		{
+			for(ll j=i;j<=en;j+=j&-j)
+				bit[j]+=a[i];
+		}
+	}
+	void update(ll st,ll en,ll in,T val)
+	{
+		for(ll j=in;j<=en;j+=j&-j)
+			bit[j]+=val;
+	}
+	T get(ll r)
+	{
+		T x{};
+		while(r>0)
+		{
+			x+=bit[r];
+			r-=r&-r;
+		}
+		return x;
+	}
+	T query(ll l,ll r)
+	{
+		return get(r)-get(l-1);
+	}
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>fenwick</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

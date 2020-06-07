@@ -1,0 +1,28 @@
+<snippet>
+	<content><![CDATA[
+void multiply(ll a[${1:2}][${1:2}],ll b[${1:2}][${1:2}])
+{
+	ll c[${1:2}][${1:2}],i,j,k;
+	for(i=0;i<${1:2};i++)
+	{
+		for(j=0;j<${1:2};j++)
+		{
+			c[i][j]=0;
+			for(k=0;k<${1:2};k++)
+			{
+				c[i][j]=(c[i][j]+a[i][k]*b[k][j]%M)%M;
+			}
+		}
+	}
+	for(i=0;i<${1:2};i++)
+	{
+		for(j=0;j<${1:2};j++)
+			a[i][j]=c[i][j];
+	}
+	return ;
+}]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>multiplier</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

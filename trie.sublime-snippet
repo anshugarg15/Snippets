@@ -1,0 +1,91 @@
+<snippet>
+	<content><![CDATA[
+struct node
+{
+	ll freq,L,R;
+	node ():L(-1) , R(-1) , freq(0){}
+};
+node tr[NN];
+ll cursz=0;
+inline getnode()
+{
+	ll v=cursz++;
+	return v;
+}
+struct TRIE
+{
+	ll root;
+	TRIE()
+	{
+		root = getnode();
+	}
+	void insert(ll n)
+	{
+		ll temp=root;
+		tr[root].freq++;
+		for(ll j=30;j>=0;--j)
+		{
+			if(n&(1LL<<j))
+			{
+				if(tr[temp].R==-1)
+					tr[temp].R=getnode();
+				temp=tr[temp].R;
+				tr[temp].freq++;
+			}
+			else
+			{
+				if(tr[temp].L==-1)
+					tr[temp].L=getnode();
+				temp=tr[temp].L;
+				tr[temp].freq++;
+			}
+		}
+	}
+	void erase(ll n)
+	{
+		ll temp=root;
+		tr[root].freq--;
+		for(ll j=30;j>=0;--j)
+		{
+			if(n&(1LL<<j))
+			{
+				tr[tr[temp].R].freq--;
+				temp=tr[temp].R;
+			}
+			else
+			{
+				 tr[tr[temp].L].freq--;
+				temp=tr[temp].L;
+			}
+		}
+	}
+	ll query(ll n)
+	{
+		ll temp=root;
+		ll ans=0;
+		for(ll j=30;j>=0;--j)
+		{
+			if(n&(1LL<<j))
+			{
+				if(tr[temp].L!=-1 && tr[tr[temp].L].freq)
+					ans+=1LL<<j,temp=tr[temp].L;
+				else
+					temp=tr[temp].R;
+			}
+			else
+			{
+				if(tr[temp].R!=-1 && tr[tr[temp].R].freq)
+					ans+=1LL<<j,temp=tr[temp].R;
+				else
+					temp=tr[temp].L;
+			}
+		}
+		return ans;
+	}
+};
+]]></content>
+	<tabTrigger>trie</tabTrigger>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

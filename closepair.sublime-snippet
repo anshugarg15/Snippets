@@ -1,0 +1,33 @@
+<snippet>
+	<content><![CDATA[
+long double closest_dis(vector<pair<ll,ll>> &points)
+{
+	sort(all(points),[&](pair<ll,ll> a,pair<ll,ll> b){ return a.F<b.F;});
+	set<pair<ll,ll>> active;
+	ll left=-INF,curr=0;
+	active.insert({points[0].S,points[0].F});
+	size_t n=points.size();
+	long double best=INF;
+	for(int i=1;i<n;++i)
+	{
+		while(points[curr].F<left && curr<n)
+		{
+			active.erase({points[curr].S,points[curr].F});
+			++curr;
+		}
+		auto it=active.lower_bound({points[i].S-best,-INF});
+		auto it2=active.upper_bound({points[i].S+best,-INF});
+		
+		for(auto j=it;j!=it2;++j)
+			amin(best,sqrt(pow(points[i].F-j->S,2.0)+pow(points[i].S-j->F,2.0)));
+		active.insert({points[i].S,points[i].F});
+		left=points[i].F-best-1;
+	}
+	return best;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>closepair</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

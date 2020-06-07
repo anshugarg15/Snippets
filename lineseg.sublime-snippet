@@ -1,0 +1,31 @@
+<snippet>
+	<content><![CDATA[
+struct seg{
+	// left x,y right x,y
+	ll xl,yl,xr,yr;
+	seg(){}
+	// is line segment pe ye point hai ya nahi
+	bool onit(ll x,ll y)
+	{
+		if(x>=min(xl,xr) && x<=max(xl,xr) && y>=min(yl,yr) && y<=max(yl,yr))
+			return true;
+		return false;
+	}
+};	
+struct line{
+	ll A,B,C;
+	// line using line segment
+	line(seg s){
+		A = s.yl-s.yr;
+		B = s.xr-s.xl;
+		C = -A*s.xl - B*s.yl;
+	}
+	line(ll a,ll b,ll c):A(a),B(b),C(c){}
+};
+// find intersection points using cross multiplication method
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>lineseg</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

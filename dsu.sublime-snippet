@@ -1,0 +1,35 @@
+<snippet>
+	<content><![CDATA[
+class DSU{
+
+private:
+	vector<ll> r,p;
+	ll n,cmps;
+public:
+	DSU (ll x): n(x) , cmps(x) {
+		r.resize(n+2,0);
+		p.resize(n+2);
+		ll k=0;
+		for(auto &j:p)
+			j=k++;
+	}
+	ll parent(ll i)
+	{
+		if(i==p[i]) return i;
+		return p[i]=parent(p[i]);
+	}
+	void merge(ll x,ll y)
+	{
+		x=parent(x);y=parent(y);
+		if(r[x]>r[y])p[y]=x;
+		else p[x]=y;
+		if(r[x]==r[y])++r[y];
+	}
+
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>dsu</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

@@ -1,0 +1,31 @@
+<snippet>
+	<content><![CDATA[
+vector<int> getLPS(string &s)
+{
+    size_t n=s.length();
+    vector<int> v(n);
+    v[0]=0;
+    int curLen=0,i=1;
+    for(;i<n;)
+    {
+        if(s[i]==s[curLen])
+            v[i]=++curLen,++i;
+        else
+        {
+            if(curLen==0)
+                v[i]=0,++i;
+            else
+                curLen=v[curLen-1];
+        }
+    }
+    //cout<<"LPS vector:\n";
+    //for(auto j:v)
+    //    cout<<j<<" ";
+    //cout<<endl;
+    return v;
+}]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>getLPS</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

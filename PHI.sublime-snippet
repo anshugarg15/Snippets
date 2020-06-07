@@ -1,0 +1,29 @@
+<snippet>
+	<content><![CDATA[
+#define euler
+ll phi[100006];
+void totient(int n=100000)
+{
+	int i;
+	for(i=1;i<=n;++i)
+		phi[i]=i;
+	for(i=2;i<=n;++i)
+	{
+		if(phi[i]==i)
+		{
+			phi[i]=i-1;
+			for(int j=2*i;j<=n;j+=i)
+			{
+				phi[j]/=i;
+				phi[j]*=i-1;
+			}
+		}
+	}
+}
+//marking for all the primes in PHI
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	 <tabTrigger>PHI</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

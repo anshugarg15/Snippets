@@ -1,0 +1,113 @@
+<snippet>
+	<content><![CDATA[
+struct dsu_node{
+    ll x, rnkx, y, rnky;
+    dsu_node(){}
+    dsu_node(ll x_,ll rnkx_,ll y_,ll rnky_): x(x_),y(y_),rnkx(rnkx_),rnky(rnky_) {}
+};
+struct dsu_with_rollback{
+    vector<int> r,p;
+    int comps;
+    stack<dsu_node> st;
+ 
+    dsu_with_rollback(){}
+ 
+    dsu_with_rollback(int n) : comps(n)
+    {
+        r.resize(n+2);p.resize(n+2);
+        for(int i=0;i<=n;++i)
+            p[i]=i,r[i]=0;
+    }
+ 
+    ll parent(ll i)
+    {
+       return (i==p[i])?i:parent(p[i]);
+    }
+    bool merge(ll x,ll y)
+    {
+        x=parent(x),y=parent(y);
+        if(x==y)
+            return false;
+        st.push(dsu_node(x,r[x],y,r[y]));
+        if(r[x]>r[y])
+            p[y]=x;
+        else p[x]=y;
+        if(r[x]==r[y])++r[y];
+        --comps;
+        return true;
+    }
+    void rollback()
+    {
+    	if(st.empty())return ;
+        dsu_node val= st.top();st.pop();
+        ++comps;
+        p[val.x]=val.x,p[val.y]=val.y;
+        r[val.x]=val.rnkx,r[val.y]=val.rnky;
+    }
+};
+ 
+struct query{
+    ll x,y;
+    bool united;
+    query(ll x_,ll y_):x(x_),y(y_),united(false){}
+};
+struct Tree{
+    vector<vector<query>> tree;
+    dsu_with_rollback dsu;
+    int n,T;  
+    vector<ll> ans;
+ 
+    Tree(int n_,int T_): n(n_),T(T_){
+        dsu = dsu_with_rollback(n);
+        tree.resize(4*T+10);
+        ans.resize(T+4);
+    }
+ 
+    void rupdate(ll v,ll st,ll en,ll l,ll r,query &q)
+    {
+        if(st>r || en<l)return ;
+        if(st>=l && en<=r)
+        {
+            tree[v].pb(q);
+            return ;
+        }
+        ll mid=(st+en)>>1;
+        rupdate(v<<1,st,mid,l,r,q);
+        rupdate(v<<1 | 1,mid+1,en,l,r,q);
+    }
+    void add_edge(ll l,ll r,ll x,ll y)
+    {
+    	query q(x,y);
+        rupdate(1,0,T-1,l,r,q);
+    }
+    void dfs(ll v,ll st,ll en)
+    {
+        for(auto &k:tree[v])
+        {
+            k.united=dsu.merge(k.x,k.y);
+        }
+ 
+        if(st==en)
+            ans[st]=dsu.comps;
+        else
+        {
+       	 	ll mid=(st+en)>>1;
+        	dfs(v<<1,st,mid);
+        	dfs(v<<1 | 1,mid+1,en);
+    	}
+        for(auto &k:tree[v])
+        {
+            if(k.united)
+                dsu.rollback();
+        }
+    }
+    void solve()
+    {
+        dfs(1,0,T-1);
+    }
+};]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>dynamicDSU</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

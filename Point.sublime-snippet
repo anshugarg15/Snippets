@@ -1,0 +1,17 @@
+<snippet>
+	<content><![CDATA[
+template<typename T>
+struct Point{
+	T x,y;
+	Point operator+(Point p){ return {x+p.x,y+p.y};}
+	Point operator-(Point p){ return {x-p.x,y-p.y};}
+	Point operator*(T d){ return {d*x,d*y};}
+	Point operator/(T d){ return {x/d,y/d};}
+	T rsq(Point a){ return a.x*a.x+a.y*a.y;};
+	ld modval(Point a){ return sqrt(rsq(a));};
+};]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>Point</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

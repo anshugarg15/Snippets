@@ -1,0 +1,36 @@
+<snippet>
+	<content><![CDATA[
+const int N=100005;
+int lpf[N],mobius[N];
+
+void _lpf_()
+{
+    lpf[1]=1;
+    for(int i=2;i<=N-2;++i)
+    {
+        if(!lpf[i])
+        {
+            for(int j=i;j<=N-2;j+=i)
+            {
+                if(!lpf[j])
+                    lpf[j]=i;
+            }
+        }
+    }
+}
+void Mobius()
+{
+    mobius[1]=1;
+    for(int i=2;i<=N-2;++i)
+    {
+        if(lpf[i/lpf[i]]==lpf[i])
+            mobius[i]=0;
+        else
+            mobius[i]=-1*mobius[i/lpf[i]];
+    }
+}]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>Mobius</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

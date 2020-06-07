@@ -1,0 +1,50 @@
+<snippet>
+	<content><![CDATA[
+//***************Fast Walsh Hadamard Transform*****************//
+// no bit reversal permutation required
+// hadamard matrices are used here as transformation matrices
+void xor_fwht(vector<ll> &a,bool invert)
+{
+	int n=(int)a.size();
+	for(int len=2;len<=n;len<<=1)
+	{
+		for(int i=0;i<n;i+=len)
+		{
+			for(int j=0;j<len/2;++j)
+			{
+				ll u=a[i+j],v=a[i+j+len/2];
+				a[i+j]=u+v;
+				a[i+j+len/2]=u-v;
+			}
+		}
+	}
+	if(invert)
+		for(int i=0;i<n;++i)
+			a[i]/=n;
+}
+void and_fwht(vector<ll> &a,bool invert)
+{
+	int n=(int)a.size();
+	// size of a must be 2**x
+	// and hadamard matrix is used here
+	for(int len=2;len<=n;len<<=1)
+	{
+		for(int i=0;i<n;i+=len)
+		{
+			for(int j=0;j<len/2;++j)
+			{
+				ll u=a[i+j],v=a[i+j+len/2];
+				if(invert)
+					a[i+j]=-u+v,a[i+j+len/2]=u;
+				else
+					a[i+j]=v,a[i+j+len/2]=u+v;
+			}
+		}
+	}
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>fwht</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

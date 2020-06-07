@@ -1,0 +1,41 @@
+<snippet>
+	<content><![CDATA[
+ll ctree[N],sub[N];
+ll cntoftr;
+void dfs1(ll s,ll p)
+{
+	++cntoftr;
+	sub[s]=1;
+	for(auto j:v[s])
+		if(j!=p)
+		{
+			dfs1(j,s);
+			sub[s]+=sub[j];
+		}
+}
+ll dfs2(ll s,ll p)
+{
+	for(auto j:v[s])
+		if(j!=p && sub[j]>cntoftr/2)
+			return dfs2(j,s);
+	return s;
+}
+void decompose(ll s,ll p)
+{
+	cntoftr=0;
+	dfs1(s,s);
+	ll centroid=dfs2(s,s);
+	if(p==-1)p=centroid;
+	ctree[centroid]=p;
+	for(ll j:v[centroid])
+	{
+		v[j].erase(centroid);
+		decompose(j,centroid);
+	}
+	v[centroid].clear();
+}]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>decompose</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

@@ -1,0 +1,34 @@
+<snippet>
+	<content><![CDATA[
+const int N=100005;
+struct node{
+	ll l,r,idx;
+}Q[N];
+${1:/*makeFrequencyArrays*/}
+inline void add(ll i,ll &ans)
+{
+	${2:/*add*/}
+}
+inline void del(ll i,ll &ans)
+{
+	${3:/*del*/}
+}
+void MO(ll q)
+{
+	ll BLOCK=max((ll)(q/sqrt(q)),1LL);
+	sort(Q,Q+q,[&](node &a,node &b){if(a.l/BLOCK==b.l/BLOCK)return a.r<b.r;return a.l/BLOCK<b.l/BLOCK;});
+	ll ans=0,curL=0,curR=-1;
+	for(ll i=0;i<q;++i)
+	{
+		while(curR<Q[i].r)add(++curR,ans);
+		while(curL>Q[i].l)add(--curL,ans);
+		while(curR>Q[i].r)del(curR--,ans);
+		while(curL<Q[i].l)del(curL++,ans);
+		A[Q[i].idx]=ans;
+	}
+}]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>MO</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

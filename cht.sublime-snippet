@@ -1,0 +1,50 @@
+<snippet>
+	<content><![CDATA[
+bool Q;
+struct Line{
+	// mx+c format
+	mutable ll m,c,p;// p is the bound of abscissa of the line (right bound)
+	bool operator<(const Line& o)const {
+		return Q? p<o.p : m<o.m;
+	}
+};
+struct LineContainer : multiset<Line> {
+	const bool minmax;
+	LineContainer(bool in): minmax(in){}
+	const ll inf=LLONG_MAX;
+	ll div(ll a,ll b){
+		return a/b - ((a^b)<0 && a%b);
+	}
+	// terminating the lines
+	// removing the faaltu lines
+	bool isect(iterator x,iterator y)
+	{
+		if(y==end()){ x->p=inf ; return false;}
+		if(x->m == y->m)x->p = x->c > y->c ?inf:-inf;
+		else x->p = div(y->c - x->c ,x->m-y->m);
+		return x->p>=y->p;
+	}
+	void add(ll m,ll c)
+	{
+		// x ke respect me mirror image
+		if(minmax)
+			m*=-1,c*=-1;
+		auto z=insert({m,c,0});
+		auto y=z++,x=y;
+		while(isect(y,z)) z = erase(z);
+		if(x!=begin() && isect(--x,y)) isect(x,y=erase(y));
+		while((y=x)!=begin() && (--x)->p>=y->p) isect(x,erase(y));
+	}
+	ll query(ll x)
+	{
+		assert(!empty());
+		Q=true ; auto l=*lower_bound({0,0,x});Q=false;
+		return (minmax?-1:1)*(l.m*x+l.c);
+	}
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>cht</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
