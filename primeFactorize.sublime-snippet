@@ -1,9 +1,9 @@
 <snippet>
 	<content><![CDATA[
-while(k!=1 && notPrime[k])
+while(k!=1 && !prime[k])
 {
-	ll z=divPrime[k];
-	while(k%z==0)k/=z;
+    ll z=pf[k];
+    while(k%z==0)k/=z;
 }
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
