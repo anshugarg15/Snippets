@@ -1,24 +1,25 @@
 <snippet>
 	<content><![CDATA[
 #define runSieve
-bool notPrime[1000005];
-ll divPrime[1000005];
-void sieve(int n=1000000)
+const int N=1000005;
+bool prime[N];
+ll pf[N];
+void sieve()
 {
-	int k=sqrt(n);
-	memf(notPrime);
-	notPrime[1]=true;
-	for(int i=2;i<=k;++i)
-	{
-		if(!notPrime[i])
-		{
-			for(int k=i*i;k<=n;k+=i)
-			{
-				notPrime[k]=true;
-				divPrime[k]=i;
-			}
-		}
-	}
+    int k=sqrt(N-2);
+    for(int i=1;i<=N-2;++i)
+        prime[i]=true;
+    for(int i=2;i<=k;++i)
+    {
+        if(prime[i])
+        {
+            for(int k=i*i;k<=N-2;k+=i)
+            {
+                prime[k]=false;
+                pf[k]=i;
+            }
+        }
+    }
 }
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
