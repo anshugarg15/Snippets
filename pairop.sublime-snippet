@@ -1,0 +1,16 @@
+<snippet>
+	<content><![CDATA[
+template<typename T,typename U>
+pair<T,U> operator+(const pair<T,U> &p,const pair<T,U> &q) {
+    return make_pair(p.F+q.F,p.S+q.S);
+}
+template <typename T,typename U>
+pair<T,U> operator-(const pair<T,U> &p,const pair<T,U> &q) {
+    return make_pair(p.F-q.F,p.S-q.S);
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>pairop</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
