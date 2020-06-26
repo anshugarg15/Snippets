@@ -1,0 +1,44 @@
+<snippet>
+	<content><![CDATA[
+int sub[N],dep[N],par[N];
+
+void dfs_size(int s=1,int p=-1)
+{
+    sub[s]=1;
+    for(auto j:v[s])
+    {
+        if(j!=p)
+        {
+            dep[j]=dep[s]+1;
+            par[j]=s;
+            dfs_size(j,s);
+            sub[s]+=sub[j];
+        }
+    }
+}
+
+int head[N],pos[N],in[N],out[N],cur=0;
+void hld(int s,int p,int h)
+{
+    head[s]=h;
+    int hv=-1,mx=-1;
+    pos[s]=cur++;
+    //seg.a[pos[s]]=val[s];
+    in[s]=pos[s];
+    for(auto j:v[s])
+        if(j!=p)
+            if(sub[j]>mx)
+                mx=sub[j],hv=j;
+
+    if(hv!=-1)
+        hld(hv,s,h);
+    for(auto j:v[s])
+        if(j!=p && j!=hv)
+            hld(j,s,j);
+    out[s]=cur-1;
+}]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>HLD</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
