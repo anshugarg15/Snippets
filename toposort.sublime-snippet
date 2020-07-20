@@ -1,0 +1,50 @@
+<snippet>
+	<content><![CDATA[
+vector<int> t_sort;
+int idx[N];
+int vs[N];
+
+bool dfs_sort(int u)
+{
+    vs[u]=2;
+    for(auto j:v[u])
+    {
+        if(vs[j]==2)
+            return true;
+        if(vs[j]==0 && dfs_sort(j))
+            return true;
+    }
+    vs[u]=1;
+    t_sort.push_back(u);
+    return false;
+}
+
+// Returns true if there is a topological sort else returns false
+bool top_sort(int n)
+{
+    t_sort.clear();
+    for(int i=1;i<=n;++i)
+        vs[i]=0;
+    for(int i=1;i<=n;++i)
+    {
+        if(vs[i]==0)
+        {
+            if(dfs_sort(i))
+            {
+                t_sort.clear();
+                return false;
+            }
+        }
+    }
+    reverse(t_sort.begin(),t_sort.end());
+    assert(t_sort.size()==n);
+    for(int i=0;i<n;++i)
+        idx[t_sort[i]]=i;
+    return true;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>toposort</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
