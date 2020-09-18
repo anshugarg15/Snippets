@@ -1,0 +1,84 @@
+<snippet>
+	<content><![CDATA[
+struct Line
+{
+    ll m,c;
+    Line() : m(0), c(0){}
+    Line(ll m_,ll c_) : m(m_), c(c_){} 
+    ll eval(ll x)
+    {
+        return m*x+c;
+    }
+};
+
+struct Node
+{
+    Line line;
+    int L,R;
+    Node () : L(-1), R(-1) {}
+    Node(Line l) : L(-1), R(-1), line(l.m,l.c){}
+};
+
+struct LiChaoTree
+{
+    Node tr[Nx];
+    int root = -1,cursz = 0;
+    ll maxn = 1e6,minn = -1e6;
+    LiChaoTree(ll x = -1e6, ll y = 1e6): maxn(y), minn(x){}
+    int getNode()
+    {
+        int v = cursz ++;
+        tr[v] = Node();
+        return v;
+    }
+    int add(int root,ll l,ll r,Line L)
+    {
+        if(root == -1)
+        {
+            int u = getNode();
+            tr[u] = Node(L);
+            return u;
+        }
+        ll mid = (l+r)/2;
+
+        bool u = L.eval(mid) > tr[root].line.eval(mid);
+        if(u)
+            swap(L,tr[root].line);
+        bool ux = L.eval(l) <= tr[root].line.eval(l);
+        bool ur = L.eval(r) <= tr[root].line.eval(r);
+        if(ux && ur)
+            return root;
+        // same assignment or the newly returned node
+        if(ux)
+            tr[root].R = add(tr[root].R,mid+1,r,L);
+        else
+            tr[root].L = add(tr[root].L,l,mid,L);
+        return root;
+    }
+    ll query(int root,ll l,ll r,ll x)
+    {
+        if(root==-1)
+            return -9e18;
+        ll mid = (l+r)/2;
+        if(x>mid)
+            return max(query(tr[root].R,mid+1,r,x),tr[root].line.eval(x));
+        else
+            return max(query(tr[root].L,l,mid,x),tr[root].line.eval(x));
+    }
+    ll query(ll x)
+    {
+        return query(root,minn,maxn,x);
+    }
+    void add(ll m,ll c)
+    {
+        Line L(m,c);
+        root = add(root,minn,maxn,L);
+    }
+}lct;
+// change the size of array and the value of maxn
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>lichao</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
