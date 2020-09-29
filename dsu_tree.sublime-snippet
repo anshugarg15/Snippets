@@ -1,0 +1,110 @@
+<snippet>
+	<content><![CDATA[
+const int LOGN = 20;
+
+struct dsu_tree
+{
+    vector<int> pos,idx,par,rnk,par_node;
+    int cur = 0,indexing=0;
+    int root = -1;
+    struct dsu_node
+    {
+        int l,r,L,R,v;
+        int p[LOGN];
+        ll w;
+        dsu_node():L(-1), R(-1), w(0), v(-1),l(-1),r(-1){}
+    };
+    vector<dsu_node> tr;
+
+    dsu_tree(int n): cur(0), indexing(0), root(-1)
+    {
+        pos.resize(n+1);
+        idx.resize(n+1);
+        par_node.resize(n+1);
+        par.resize(n+1);
+        tr.resize(2*n+2);
+        rnk.resize(n+1);
+        for(int i=0;i<=n;++i)
+            rnk[i] = 0,par[i] = i;
+        for(int i=1;i<=n;++i)
+        {
+            int x = getNode();
+            tr[x].v = i;
+            assert(x==i-1);
+            par_node[i] = x;
+        }
+    }
+    int parent(int i)
+    {
+        return par[i] = (par[i]==i)?i:parent(par[i]);
+    }
+    int getNode()
+    {
+        int v = cur ++;
+        tr[v] = dsu_node();
+        return v;
+    }
+    void merge(int x,int y,ll w)
+    {
+        x = parent(x),y = parent(y);
+        if(x == y)
+            return ;
+        int u = getNode();
+        tr[u].w = w;
+        tr[u].L = par_node[x];
+        tr[u].R = par_node[y]; 
+        if(rnk[x]>rnk[y])
+            par[y] = x,par_node[x] = u;
+        else
+            par[x] = y,par_node[y] = u;
+        if(rnk[x] == rnk[y])
+            ++rnk[y];
+
+    }
+    void dfs(int s)
+    {
+        for(int j=1;j<LOGN;++j)
+            tr[s].p[j] = tr[tr[s].p[j-1]].p[j-1];
+        if(tr[s].v != -1)
+        {
+            idx[tr[s].v] = indexing;
+            pos[indexing] = tr[s].v;
+            tr[s].l = tr[s].r = indexing;
+            ++indexing;
+        }
+        if(tr[s].L != -1)
+        {
+            tr[tr[s].L].p[0] = s;
+            tr[tr[s].R].p[0] = s;
+            dfs(tr[s].L);
+            dfs(tr[s].R);
+            tr[s].l = tr[tr[s].L].l;
+            tr[s].r = tr[tr[s].R].r;
+        }
+    }
+    void dfs()
+    {
+        root = cur - 1;
+        tr[root].p[0] = root;
+        dfs(root);
+    }
+    pair<int,int> lift(int u,ll w)
+    {
+        u = u-1;
+        for(int j=LOGN-1;j>=0;--j)
+        {
+            if(tr[tr[u].p[j]].w<=w)
+                u = tr[u].p[j];
+        }
+        return make_pair(tr[u].l,tr[u].r);
+    }
+};
+// in case of tree call dsu.dfs()
+// else call for every component 
+// 0 based 
+// number at index i --> pos[i]]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	 <tabTrigger>DSU_TREE</tabTrigger> 
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
