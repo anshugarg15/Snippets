@@ -1,11 +1,13 @@
 <snippet>
 	<content><![CDATA[
-struct dsu_node{
-    ll x, rnkx, y, rnky;
+struct dsu_node
+{
+    int x, rnkx, y, rnky;
     dsu_node(){}
-    dsu_node(ll x_,ll rnkx_,ll y_,ll rnky_): x(x_),y(y_),rnkx(rnkx_),rnky(rnky_) {}
+    dsu_node(int x_,int rnkx_,int y_,int rnky_): x(x_),y(y_),rnkx(rnkx_),rnky(rnky_) {}
 };
-struct dsu_with_rollback{
+struct dsu_with_rollback
+{
     vector<int> r,p;
     int comps;
     stack<dsu_node> st;
@@ -18,12 +20,11 @@ struct dsu_with_rollback{
         for(int i=0;i<=n;++i)
             p[i]=i,r[i]=0;
     }
- 
-    ll parent(ll i)
+    inline int parent(int i)
     {
        return (i==p[i])?i:parent(p[i]);
     }
-    bool merge(ll x,ll y)
+    bool merge(int x,int y)
     {
         x=parent(x),y=parent(y);
         if(x==y)
@@ -38,7 +39,7 @@ struct dsu_with_rollback{
     }
     void rollback()
     {
-    	if(st.empty())return ;
+        if(st.empty())return ;
         dsu_node val= st.top();st.pop();
         ++comps;
         p[val.x]=val.x,p[val.y]=val.y;
@@ -47,9 +48,8 @@ struct dsu_with_rollback{
 };
  
 struct query{
-    ll x,y;
-    bool united;
-    query(ll x_,ll y_):x(x_),y(y_),united(false){}
+    int x,y;
+    query(int x_,ll y_):x(x_),y(y_){}
 };
 struct Tree{
     vector<vector<query>> tree;
@@ -63,7 +63,7 @@ struct Tree{
         ans.resize(T+4);
     }
  
-    void rupdate(ll v,ll st,ll en,ll l,ll r,query &q)
+    void rupdate(int v,int st,int en,int l,int r,query &q)
     {
         if(st>r || en<l)return ;
         if(st>=l && en<=r)
@@ -71,35 +71,35 @@ struct Tree{
             tree[v].pb(q);
             return ;
         }
-        ll mid=(st+en)>>1;
+        int mid=(st+en)>>1;
         rupdate(v<<1,st,mid,l,r,q);
         rupdate(v<<1 | 1,mid+1,en,l,r,q);
     }
-    void add_edge(ll l,ll r,ll x,ll y)
+    inline void add_edge(int l,int r,int x,int y)
     {
-    	query q(x,y);
+        query q(x,y);
         rupdate(1,0,T-1,l,r,q);
     }
-    void dfs(ll v,ll st,ll en)
+    void dfs(int v,int st,int en)
     {
+        if(en<st)
+            return ;
+        int cnt = 0;
         for(auto &k:tree[v])
         {
-            k.united=dsu.merge(k.x,k.y);
+            cnt += dsu.merge(k.x,k.y);
         }
  
         if(st==en)
             ans[st]=dsu.comps;
         else
         {
-       	 	ll mid=(st+en)>>1;
-        	dfs(v<<1,st,mid);
-        	dfs(v<<1 | 1,mid+1,en);
-    	}
-        for(auto &k:tree[v])
-        {
-            if(k.united)
-                dsu.rollback();
+            int mid=(st+en)>>1;
+            dfs(v<<1,st,mid);
+            dfs(v<<1 | 1,mid+1,en);
         }
+        while(cnt--)
+            dsu.rollback();
     }
     void solve()
     {
