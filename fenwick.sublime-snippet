@@ -1,37 +1,39 @@
 <snippet>
 	<content><![CDATA[
-template<typename T>
-class fenwick {
-public:
-	T a[N],bit[N]{};
-	void build(ll st,ll en)
-	{
-		for(ll i=st;i<=en;++i)
-		{
-			for(ll j=i;j<=en;j+=j&-j)
-				bit[j]+=a[i];
-		}
-	}
-	void update(ll st,ll en,ll in,T val)
-	{
-		for(ll j=in;j<=en;j+=j&-j)
-			bit[j]+=val;
-	}
-	T get(ll r)
-	{
-		T x{};
-		while(r>0)
-		{
-			x+=bit[r];
-			r-=r&-r;
-		}
-		return x;
-	}
-	T query(ll l,ll r)
-	{
-		return get(r)-get(l-1);
-	}
+template<typename T=long long>
+struct fenwick {
+    T a[N],bit[N];
+    int n;
+    fenwick() 
+    {
+        for(int i=1;i<=N-2;++i)
+            a[i] = T(0),bit[i] = T(0);
+    }
+    void build(int n_)
+    {
+        n = n_;
+        for(int i=1;i<=n;++i)
+            for(int j=i;j<=n;j+=j&-j)
+                bit[j] += a[i];
+    }
+    void update(int j,T val)
+    {
+        for(;j<=n;j+=j&-j)
+            bit[j] += val;
+    }
+    T get(int r)
+    {
+        T u = 0;
+        for(;r;r-=r&-r)
+            u += bit[r]; 
+        return u;
+    }
+    T query(int l,int r)
+    {
+        return get(r)-get(l-1);
+    }
 };
+// call fenw.build(n);
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
 	<tabTrigger>fenwick</tabTrigger>
