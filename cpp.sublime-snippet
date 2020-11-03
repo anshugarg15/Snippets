@@ -19,18 +19,6 @@ const int M = 1000000007;
 const int MM = 998244353;
 const long double PI = acos(-1);
 
-ll power(ll b,ll e,ll m)
-{
-    if(e==0) return 1;
-    if(e&1) return b*power(b*b%m,e/2,m)%m;
-    return power(b*b%m,e/2,m);
-}
-ll power( ll b, ll e)
-{
-    if(e==0) return 1;
-    if(e&1) return b*power(b*b,e/2);
-    return power(b*b,e/2);
-}
 template<typename T, typename U> static inline void amin(T &x, U y){ if(y<x) x=y; }
 template<typename T, typename U> static inline void amax(T &x, U y){ if(x<y) x=y; }
 template<typename T, typename U> ostream& operator<<(ostream &os, const pair<T, U> &p)
