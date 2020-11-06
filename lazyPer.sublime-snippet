@@ -1,0 +1,96 @@
+<snippet>
+	<content><![CDATA[
+const int NN = 15000000;
+struct node{
+    ll val;
+    int L,R;
+    node (): L(-1),R(-1),val(0),lazy(0){};
+    node(ll x) : L(-1),R(-1),val(x),lazy(0){};
+    ll lazy;
+};
+struct PERTREE{
+    node tree[NN];
+    int cursz=0;
+    int buildTree(int st,int en)
+    {
+        int v = cursz++;
+        tree[v]=node();
+        if(st==en)
+            return v;
+        int mid=(st+en)>>1;
+        tree[v].L=buildTree(st,mid);
+        tree[v].R=buildTree(mid+1,en); 
+        return v;
+    }
+    inline void combine(int v,int l,int r)
+    {
+        tree[v].val = max(tree[l].val , tree[r].val);
+    }
+    int pushdown(int v,int l,int r)
+    {
+        tree[v].val += tree[v].lazy;
+        if(l==r)
+        {
+            tree[v].lazy = 0;
+            return v;
+        }
+        int mid = (l+r)/2;
+        int u = cursz++;
+        tree[u] = tree[tree[v].L];
+        tree[u].lazy += tree[v].lazy;
+        tree[v].L = u;
+        u = cursz++;
+        tree[u] = tree[tree[v].R];
+        tree[u].lazy += tree[v].lazy;
+        tree[v].R = u;
+        tree[v].lazy = 0;
+        return v;
+    }
+    int rupdate(int v,int st,int en,int l,int r,ll val)
+    {
+        int u = cursz++;
+        tree[u] = tree[v];
+        if(tree[u].lazy != 0)
+        {
+            u = pushdown(u,l,r);
+        }
+        if(st>r || en<l)
+            return u;
+        if(st>=l && en<=r)
+        {
+            tree[u].lazy = val;
+            pushdown(u,st,en);
+            return u;
+        }
+        int mid = (st+en)/2;
+        tree[u].L = rupdate(tree[u].L,st,mid,l,r,val);
+        tree[u].R = rupdate(tree[u].R,mid+1,en,l,r,val);
+        combine(u,tree[u].L,tree[u].R);
+        return u;
+    }
+    ll query(int v,int st,int en,int l,int r)
+    {
+        if(st>r || en<l)
+            return 0;
+        if(tree[v].lazy != 0)
+        {
+            int u = cursz++;
+            tree[u] = tree[v];
+            pushdown(u,st,en);
+            v = u;
+        }
+        if(st>=l && en<=r)
+        {
+            return tree[v].val;
+        }
+        int mid=(st+en)/2;
+        return max(query(tree[v].L,st,mid,l,r) , query(tree[v].R,mid+1,en,l,r));
+    }
+};
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>lazyPersistent</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
