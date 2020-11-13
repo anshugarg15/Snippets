@@ -1,0 +1,96 @@
+<snippet>
+	<content><![CDATA[
+const int LEN = 200005;
+// should be 2*length
+struct SA
+{
+    struct state
+    {
+        int len,link;
+        map<char,int> next;
+    };
+    state st[LEN];
+    int sz,last;
+    int cnt[LEN];
+    bitset<LEN> vis;
+
+    void SA_make()
+    {
+        sz = 0;
+        st[0].len = 0,st[0].link = -1;
+        ++sz;
+        last = 0;
+    }
+
+    SA() {
+        SA_make();
+    }
+    void add(char c)
+    {
+        int new_n = sz++;
+        st[new_n].len = st[last].len + 1;
+        int pt = last;
+        while(pt!=-1 && !st[pt].next.count(c))
+        {
+            st[pt].next[c] = new_n;
+            pt = st[pt].link;
+        }
+        if(pt == -1)
+        {
+            st[new_n].link = 0;
+        }
+        else
+        {
+            int q_st = st[pt].next[c];
+            if(st[q_st].len == st[pt].len + 1)
+                st[new_n].link = q_st;
+            else
+            {
+                int clone = sz++;
+                st[clone] = st[q_st];
+                st[clone].len = st[pt].len + 1;
+                st[q_st].link = st[new_n].link = clone;
+                while(pt!=-1 && st[pt].next[c] == q_st)
+                {
+                    st[pt].next[c] = clone;
+                    pt = st[pt].link;
+                }
+            }
+        }
+        last = new_n;
+    }
+    int minlen(int u)
+    {
+        if(u==0)
+            return 0;
+        return st[st[u].link].len + 1;
+    }
+    void build(string &s)
+    {
+        for(char c : s)
+        {
+            add(c);
+            ++cnt[last];
+        }
+    }
+    // counting the endpos equivalents 
+    void buildCount()
+    {
+        vector<int> v;
+        for(int i=1;i<sz;++i)
+            v.pb(i);
+        sort(all(v),[&](int x,int y) {
+            return st[x].len>st[y].len;
+        });
+        for(int i=0;i<sz-1;++i)
+            cnt[st[v[i]].link] += cnt[v[i]];
+    }
+}sa;
+
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	 <tabTrigger>Automaton</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
