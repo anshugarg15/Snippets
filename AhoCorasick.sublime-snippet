@@ -1,0 +1,81 @@
+<snippet>
+	<content><![CDATA[
+const int LEN = 200005;
+vector<int> g[LEN];
+struct aho_corasick
+{
+    struct Vertex
+    {
+        map<char,int> next;
+        int cnt,link;
+        Vertex() : cnt(0) {
+
+        }
+    };
+    Vertex tr[LEN];
+    int sz = 0;
+
+    aho_corasick(){
+        sz = 1;
+    }
+    int add_word(string &s)
+    {
+        int v = 0;
+        for(auto j:s)
+        {
+            if(!tr[v].next.count(j))
+                tr[v].next[j] = sz++;
+            v = tr[v].next[j];
+        }
+        ++tr[v].cnt;
+        return v;
+    }
+    void gen_links()
+    {
+        queue<int> Q;
+        tr[0].link = -1;
+        Q.push(0);
+        while(!Q.empty())
+        {
+            int u = Q.front();
+            Q.pop();
+            for(auto j:tr[u].next)
+            {
+                char c = j.F;
+                int v = j.S;
+                int k = tr[u].link;
+                while(k != -1 && !tr[k].next.count(c))
+                    k = tr[k].link;
+                if(k==-1)
+                    k = 0;
+                else
+                    k = tr[k].next[c];
+                tr[v].link = k;
+                Q.push(v);
+            }
+        }
+        gen_tree();
+    }
+    void gen_tree()
+    {
+        for(int i=1;i<sz;++i)
+        {
+            g[tr[i].link].pb(i);
+        }
+    }
+    void print_dfs(int u = 0)
+    {
+        for(auto j:tr[u].next)
+        {
+            cout<<j.F<<" ";
+            print_dfs(j.S);
+        }
+    }
+}aho;
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>AhoCorasick</tabTrigger> 
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
