@@ -1,0 +1,164 @@
+<snippet>
+	<content><![CDATA[
+namespace C
+{
+    const int N = 400000,LOGN = 19;
+    const int Nx = N*LOGN + N;
+    set<pair<int,ll>> v[N];
+    int len[N],in[N],out[N],cur=1;
+    ll dis[LOGN][N];
+
+    int treesz;
+    int g[N][3];
+    int sz = 0,nn;
+    int sub[N];
+
+    struct node
+    {
+        int v;
+        int g[3];
+        ll sum ,contr;
+        int cnt;
+    }tr[Nx];
+
+    void add_edge(int x,int y,ll w)
+    {
+        v[x].insert({y,w});
+        v[y].insert({x,w});
+    }
+    void dfs_sz(int s,int p)
+    {
+        sub[s] = 1;
+        ++nn;
+        for(auto [j,k]:v[s])
+            if(j!=p)
+                dfs_sz(j,s),sub[s] += sub[j];
+    }
+    int get_cen(int s,int p)
+    {
+        for(auto [j,k]:v[s])
+            if(j!=p && sub[j]>nn/2)
+                return get_cen(j,s);
+        return s;
+    }
+    void dfs(int s,int p,ll val,int h)
+    {
+        dis[h][s] = val;
+        for(auto [j,k]:v[s])
+        {
+            if(j!=p)
+            {
+                dfs(j,s,val+k,h);
+            }
+        }
+    }
+    int decompose(int s,int p,int h=0)
+    {
+        nn = 0;
+        dfs_sz(s,s);
+        int cen = get_cen(s,s);
+        dfs(cen,cen,0,h);
+        for(auto [j,k]:v[cen])
+        {
+            v[j].erase({cen,k});
+            int u = decompose(j,cen,h+1);
+            g[cen][len[cen]++] = u;
+            assert(len[cen]<4);
+        }
+        v[cen].clear();
+        return cen;
+    }
+    int build(int s,int p)
+    {
+        int v = sz++;
+        tr[v].v = s;
+        in[s] = cur++;
+        for(int i=0;i<len[s];++i)
+        {
+            tr[v].g[i] = build(g[s][i],s);
+        }
+        out[s] = cur-1;
+        return v;
+    }
+    // call with a leaf
+    void binarize(int s,int p)
+    {
+        assert(treesz<N);
+        vector<int> t;
+        t.pb(s);
+        int cnt = 1;
+        vector<pii> z;
+        for(auto [j,k]:v[s])
+        {
+            if(j==p)
+            {
+                z.pb({j,k});
+                continue;
+            }
+            --cnt;
+            if(cnt==0)
+                z.pb({j,k});
+            if(cnt<0)
+            {
+                int new_ = treesz++;
+                t.pb(new_);
+                v[j].erase({s,k});
+                v[j].insert({new_,k});
+                v[new_].insert({j,k});
+            }
+            binarize(j,t.back());
+        }
+        v[s].clear();
+        for(auto j:z)
+            v[s].insert(j);
+        for(int i=0;i<sz(t)-1;++i)
+            add_edge(t[i],t[i+1],0);
+    }
+    int update(int s,int u,int h=0)
+    {
+        int v = sz++;
+        assert(sz<Nx);
+        tr[v] = tr[s];
+        ++tr[v].cnt;
+        tr[v].sum += dis[h][u];
+        int ver = tr[v].v;
+        for(int i=0;i<len[ver];++i)
+        {
+            if(in[g[ver][i]]<=in[u] && in[u]<=out[g[ver][i]])
+            {
+                tr[v].g[i] = update(tr[v].g[i],u,h+1);
+                tr[tr[v].g[i]].contr += dis[h][u];
+            }
+        }
+        return v;
+    }
+
+    ll query(int s,int u,int h=0)
+    {
+        ll ans = tr[s].sum + dis[h][u]*tr[s].cnt;
+        int ver = tr[s].v;
+        for(int i=0;i<len[ver];++i)
+        {
+            if(in[g[ver][i]]<=in[u] && in[u]<=out[g[ver][i]])
+            {
+                ans -= tr[tr[s].g[i]].contr + tr[tr[s].g[i]].cnt*dis[h][u];
+                ans += query(tr[s].g[i],u,h+1);
+            }
+        }
+        return ans;
+    }
+}
+
+using namespace C;
+// C::add_edge(x,y,weight)
+// C::treesz = n+1 --> next available vertex
+// C::binarize(leaf,0)
+// C::decompose returns the centroid
+// C::build(centroid,0)
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>PersistentCentroid</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
