@@ -1,0 +1,98 @@
+<snippet>
+	<content><![CDATA[
+const int N = 200005;
+
+vector<int> v[N];
+namespace D
+{
+    vector<int> rg[N],bucket[N];
+    vector<int> g[N];
+    int sdom[N],idom[N],idx[N];
+    int pos[N],par[N];
+
+    // Dsu
+    // using namespace D;
+    int p[N],min_sdom[N];
+
+    int cur = 1;
+
+    void clear(int n)
+    {
+        cur = 1;
+        for(int i=0;i<=n;++i)
+        {
+            g[i].clear(),v[i].clear(),rg[i].clear(),bucket[i].clear();
+            pos[i] = 0,idx[i] = 0;
+            par[i] = 0;
+            p[i] = i,min_sdom[i] = i;
+            sdom[i] = i;
+        }
+    }
+
+    void dfs(int s)
+    {   
+        idx[s] = cur++;
+        pos[idx[s]] = s;
+        for(auto j:g[s])
+        {
+            if(!idx[j])
+            {
+                par[j] = s;
+                dfs(j);
+            }
+            rg[idx[j]].pb(idx[s]);
+        }
+    }
+    // Path Compression only, Amortized it is also nlogn
+    pii get(int u)
+    {
+        if(p[u]==u)
+            return make_pair(min_sdom[u],u);
+        auto k = get(p[u]);
+        p[u] = k.second;
+        if(sdom[k.first]<sdom[min_sdom[u]])
+            min_sdom[u] = k.first;
+        return make_pair(min_sdom[u],k.second);
+    }
+    void dom_tree(int root)
+    {
+        dfs(root);
+        for(int i=cur-1;i>=1;--i)
+        {
+            for(auto &j:rg[i])
+            {
+                sdom[i] = min(sdom[i],sdom[get(j).first]);
+            }
+            if(i>=1)
+                bucket[sdom[i]].pb(i);
+            for(auto &j:bucket[i])
+            {
+                int u = get(j).first;
+                if(sdom[u]==i)
+                    idom[j] = i;
+                else
+                    idom[j] = u;
+            }
+            for(auto &j:g[pos[i]])
+                if(par[j] == pos[i])
+                    p[idx[j]] = i;
+        }
+        for(int i=2;i<cur;++i)
+        {
+            if(idom[i]!=sdom[i])
+                idom[i] = idom[idom[i]];
+            v[pos[idom[i]]].pb(pos[i]);
+            v[pos[i]].pb(pos[idom[i]]);
+        }
+    }
+}
+// using namespace D;
+// D::clear(n);
+// D::dom_tree(root);
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>dominator_tree</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
