@@ -1,0 +1,74 @@
+<snippet>
+	<content><![CDATA[
+template<typename T>
+struct Gauss
+{
+    vector<vector<T>> v;
+    vector<T> ans;
+    // n -> number of variables
+    // m-> number of equations
+    int n,m;
+    Gauss(int n,int m)
+    {
+        this->n = n;
+        this->m = m;
+        v.resize(m);
+        for(auto &j:v)
+            j.resize(n+1);
+    }
+    bool solve()
+    {
+        ans.resize(n);
+        vector<int> where(n,-1);
+        int row = 0;
+        for(int i=0;i<n;++i)
+        {
+            if(row == m)
+                continue;
+            int r;
+            for(r = row;r<m;++r)
+                if(v[r][i] != 0)
+                    break;
+            if(r == m)
+                continue;
+            where[i] = row;
+            swap(v[row],v[r]);
+            for(int r=row+1;r<m;++r)
+            {
+                if(v[r][i] != 0)
+                {
+                    T u = v[r][i]/v[row][i];
+                    for(int j=i;j<n+1;++j)
+                        v[r][j] -= v[row][j]*u;
+                }
+            }
+            ++row;
+        }
+        for(int x=row;x<m;++x)
+        {
+            if(v[x][n] != 0)
+                return false;
+        }
+        for(int i=n-1;i>=0;--i)
+        {
+            if(where[i] == -1)
+            {
+                // free variable
+            }
+            T x = v[where[i]][n];
+            for(int j=i+1;j<n;++j)
+                x -= v[where[i]][j]*ans[j];
+            x /= v[where[i]][i];
+            ans[i] = x;
+        }
+        return true;
+    }
+};
+// row-reduced echleon
+// Gauss<double> g(n,m);
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>gaussian</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
