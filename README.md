@@ -3,9 +3,28 @@
 ## Layout of The Task:
 
 * It contains a root folder named - **19075011-Anshu-Garg** which contains 4 subfolders and readme file -
-    * Chunking -   
+    * Chunking
         * RNN
             * Chunking_RNN.ipynb
+            * Chunking_RNN.pb
+        * bi-LSTM
+            * Chunking_BiLSTM.ipynb
+            * Chunking_biLSTM.pb
+    * NER
+        * RNN
+            * NER_RNN.ipynb
+            * NER_RNN.pb
+        * bi-LSTM
+            * NER_BiLSTM.ipynb
+            * NER_biLSTM.pb
+        * ner_dataset_final.csv
+    * POS-Tagging
+        * RNN
+            * POS_RNN.ipynb
+            * POS_RNN.pb
+        * bi-LSTM
+            * POS_bi-LSTM.pb
+            * POS_biLSTM.ipynb
 
 ## POS Tagging:
 
