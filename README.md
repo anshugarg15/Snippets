@@ -26,15 +26,25 @@
             * POS_bi-LSTM.pb
             * POS_biLSTM.ipynb
 
-Here we tried to implement Chunking, POS Tagging and NER(Named Entity Recognition) using RNN(Recurrent Neural netwrork) and Bi-LSTM (Bi-directional LSTM).
+Here, we tried to implement Chunking, POS Tagging and NER(Named Entity Recognition) using **RNN**(Recurrent Neural netwrork) and **Bi-LSTM** (Bi-directional LSTM).
 
 ## RNN:
 
 * Recurrent neural networks (RNN) are a class of neural networks that are helpful in modeling sequence data. Derived from feedforward networks, RNNs exhibit similar behavior to how human brains function. Recurrent neural networks produce predictive results in sequential data that other algorithms can't.
 
+### Advantages 
+
+* The principal advantage of RNN is that RNN can model a collection of records (i.e. time collection) so that each pattern can be assumed to be dependent on previous ones.
+
+* Recurrent neural networks are even used with convolutional layers to extend the powerful pixel neighbourhood.
+
 ## Bi-LSTM:
 
 * Bidirectional recurrent neural networks(RNN) are just putting two independent RNNs together. This structure allows the networks to have both backward and forward information about the sequence at every time step. A bidirectional LSTM (BiLSTM) layer learns bidirectional long-term dependencies between time steps of time series or sequence data. These dependencies can be useful when you want the network to learn from the complete time series at each time step.
+
+### Advantages
+
+* It solves the problem of fixed sequence to sequence prediction.
 
 ## Chunking:
 
