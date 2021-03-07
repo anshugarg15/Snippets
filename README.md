@@ -28,6 +28,14 @@
 
 Here we tried to implement Chunking, POS Tagging and NER(Named Entity Recognition) using RNN(Recurrent Neural netwrork) and Bi-LSTM (Bi-directional LSTM).
 
+## RNN:
+
+* Recurrent neural networks (RNN) are a class of neural networks that are helpful in modeling sequence data. Derived from feedforward networks, RNNs exhibit similar behavior to how human brains function. Recurrent neural networks produce predictive results in sequential data that other algorithms can't.
+
+## Bi-LSTM:
+
+* Bidirectional recurrent neural networks(RNN) are just putting two independent RNNs together. This structure allows the networks to have both backward and forward information about the sequence at every time step. A bidirectional LSTM (BiLSTM) layer learns bidirectional long-term dependencies between time steps of time series or sequence data. These dependencies can be useful when you want the network to learn from the complete time series at each time step.
+
 ## Chunking:
 
 **Chunking** is a process of extracting phrases from unstructured text, which means analyzing a sentence to identify the constituents(Noun Groups, Verbs, verb groups, etc.)
@@ -36,7 +44,7 @@ Here we tried to implement Chunking, POS Tagging and NER(Named Entity Recognitio
 
 * First we splitted the whole dataset into training, testing and validation sets.
 
-* Then we implemented the RNN and biLSTM models using python inbuilt libraries and then plotted the models.
+* Then we implemented the RNN and biLSTM models using python inbuilt libraries and then plotted the models to visualize and compare the results.
 
 ### Result : 
 * Using RNN we got **98.37%** accuracy and using Bi-LSTM we got **98.62%** accuracy.
@@ -45,6 +53,12 @@ Here we tried to implement Chunking, POS Tagging and NER(Named Entity Recognitio
 
 POS Tagging is the process of classifying words into their part of speech and label their tags accrodingly is called **POS tagging**.
 
+### Implementation : 
+
+* First we splitted the whole dataset into training, testing and validation sets.
+
+* Then we implemented the RNN and biLSTM models using python inbuilt libraries and then plotted the models to visualize and compare the results.
+
 ### Result:
 
 * POS Tagging using RNN we got **99.26%** accuracy and using Bi-LSTM we get **99.37%** accuracy.
@@ -52,6 +66,12 @@ POS Tagging is the process of classifying words into their part of speech and la
 ## NER
 
 **Named Entity Recognition (NER)** is the process of identifying and categorizing named entities in a given text. Examples of categories are organizations, locations, time, names, money, and rate.
+
+### Implementation : 
+
+* First we splitted the whole dataset into training, testing and validation sets.
+
+* Then we implemented the RNN and biLSTM models using python inbuilt libraries and then plotted the models to visualize and compare the results.
 
 ### Result : 
 
