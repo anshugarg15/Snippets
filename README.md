@@ -89,4 +89,4 @@ Using CRF++, we got the accuracies as follows:
 
 * **POS_Tagging** : 93-94% 
 
-**Hence our present accuracies using RNN and biLSTM are much better than the obtained using CRF++ Tool.**
+**Hence our present accuracies using RNN and biLSTM are much better than those obtained using CRF++ Tool.**
