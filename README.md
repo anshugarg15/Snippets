@@ -3,7 +3,7 @@
 ## The Lab-project consists of a main folder named as 
 19074045-Megha-Agarwal which consists of three sub-folders –
 
-   **Chunking** – 
+   * **Chunking**
         * Chunking_RNN – 
             * Chunking_RNN.ipynb
             * Chunking_RNN_model.pb
@@ -11,7 +11,7 @@
             * Chunking_Bi-LSTM.ipynb
             * Chunking_Bi-LSTM_model.pb
 
-   **NER** –
+   * **NER** –
         * NER_RNN – 
             * NER_RNN.ipynb
             * NER_RNN_model.pb
@@ -19,15 +19,16 @@
             * NER_Bi-LSTM.ipynb
             * NER_Bi-LSTM_model.pb
             
-   **POS** – 
+   * **POS** – 
         * POS_RNN – 
             * POS_RNN.ipynb
             * POS_RNN_model.pb
         * POS_Bi-LSTM –
             * POS_Bi-LSTM.ipynb
             * POS_Bi-LSTM_model.pb
-    * Google-Colab notebook (.ipynb) – It consists of the whole code which trains and test the data.
-    * Model trained (.pb) – It consists of the model trained i.e., RNN or Bi-LSTM.
+    
+   * Google-Colab notebook (.ipynb) – It consists of the whole code which trains and test the data.
+   * Model trained (.pb) – It consists of the model trained i.e., RNN or Bi-LSTM.
 
 ## RNN -
 
