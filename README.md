@@ -26,11 +26,17 @@
             * POS_bi-LSTM.pb
             * POS_biLSTM.ipynb
 
-Here we tried to implement Chunking, POS Tagging and NER(Named Entity Recognition) using RNN(Recurrent Neural netwrork) and Bi-lstm (Bi directional LSTM).
+Here we tried to implement Chunking, POS Tagging and NER(Named Entity Recognition) using RNN(Recurrent Neural netwrork) and Bi-LSTM (Bi-directional LSTM).
 
 ## Chunking:
 
 **Chunking** is a process of extracting phrases from unstructured text, which means analyzing a sentence to identify the constituents(Noun Groups, Verbs, verb groups, etc.)
+
+### Implementation : 
+
+* First we splitted the whole dataset into training, testing and validation sets.
+
+* Then we implemented the RNN and biLSTM models using python inbuilt libraries and then plotted the models.
 
 ### Result : 
 * Using RNN we got **98.37%** accuracy and using Bi-LSTM we got **98.62%** accuracy.
