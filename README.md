@@ -26,73 +26,41 @@
             * POS_bi-LSTM.pb
             * POS_biLSTM.ipynb
 
-## POS Tagging:
-
-POS tagging is the process of classifying words into their part of speech and labelling them accrodingly is called POS tagging.
-Here, we have tried to implement it using RNN (Recurrent Neural netwrork) and Bi-lstm (Bi directional Lstm)
-
-### Procedure:
-
-First, we import all necessary libraries and download conll2000 dataset:
-
-* Step 1: Preprocess data and divide the data into words (x) and tags(y).
-
-* Step 2: We vectorize X and Y using tokenizer function from keras library.
-
-* Step 3: Make sure that each sequence of input and ouput are of same length.
-
-* Step 4: Pad the sequence and then implement word embeddings and then do one hot encoding for output sequences(Y).
-
-* Step 5: Split data into training , testing , validation sets.
-
-* Step 6: Implement RNN model using libraries and fit the model.
-
-* Step 7: Visualise using graphs and compile the model and get summary of model.
-
-* Step 8: Just Implement the Bi Lstm model, fit the model to embeddings created , visualise , compile and get summary of Bi Lstm Model.
+Here we tried to implement Chunking, POS Tagging and NER(Named Entity Recognition) using RNN(Recurrent Neural netwrork) and Bi-lstm (Bi directional LSTM).
 
 ## Chunking:
-Chunking refers to the process of taking individual pieces of information and grouping them into larger units.
 
-### Procedure
+**Chunking** is a process of extracting phrases from unstructured text, which means analyzing a sentence to identify the constituents(Noun Groups, Verbs, verb groups, etc.)
 
-First, we import all necessary libraries and download conll2000 dataset:
+### Result : 
+* Using RNN we got **98.37%** accuracy and using Bi-LSTM we got **98.62%** accuracy.
 
-* Step 1: Preprocess data and divide the data into words (x) and tags(y)
+## POS Tagging:
 
-* Step 2: We vectorize X and Y using tokenizer function from keras library
+POS Tagging is the process of classifying words into their part of speech and label their tags accrodingly is called **POS tagging**.
 
-* Step 3: Make sure that each sequence of input and ouput are of same length
+### Result:
 
-* Step 4: Pad the sequence and then implement word embeddings and then do one hot encoding for output sequences(Y)
-
-* Step 5: Split data into training , testing , validation sets
-
-* Step 6: Implement RNN model using libraries and fit the model
-
-* Step 7: Visualise using graphs and compile the model and get summary of model.
-
-* Step 8: Just Implement the Bi Lstm model, fit the model to embeddings created , visualise , compile and get summary of Bi Lstm Model.
-
+* POS Tagging using RNN we got **99.26%** accuracy and using Bi-LSTM we get **99.37%** accuracy.
 
 ## NER
 
-NER (Named Entity recognition) is a task of information extraction that seeks to locate and classify named enitties mentioned in unstructured texts into pre-defined categories such as name of a person, locations , quantities , measurments etc.
+**Named Entity Recognition (NER)** is the process of identifying and categorizing named entities in a given text. Examples of categories are organizations, locations, time, names, money, and rate.
 
-Here, we have tried to implement it using RNN (Recurrent Neural netwrork) and Bi-lstm (Bi directional Lstm).
+### Result : 
 
-### Procedure:
+* Using RNN we got **99.54%** accuracy and using Bi-lstm we got **97.11%** accuracy.
 
-First, we import all necessary libraries and download conll2003 dataset:
+## Conclusion: 
 
-* Step 1: Load the dataset.
+* In all three of the above, i.e. POS Tagging, Chunking, NER, we got very high accuracy using Bi-LSTM and RNN when compared with CRF++ implementation. 
 
-* Step 2: Extract mappings required for neural network.
+Using CRF++, we got the accuracies as follows:
 
-* Step 3: Transform columns to extract sequential data.
+* **Chunking** : 94-96%
 
-* Step 4: Split the dataset into train and test after padding.
+* **NER** : 84-85%
 
-* Step 5: Build the model architecture which will have 4 layers as embedding layer , Bidirectional Lstm, Lstm layer, Time distributed layer.
+* **POS_Tagging** : 93-94% 
 
-* Step 6: Fit the model visualise them and get summary and results of the model.
+**Hence our present accuracies using RNN and biLSTM are much better than the obtained using CRF++ Tool.**
