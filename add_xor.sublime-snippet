@@ -1,0 +1,71 @@
+<snippet>
+	<content><![CDATA[
+
+// For < 20 bits
+struct DS
+{
+    vector<vector<int>> bit;
+
+    DS() {
+        bit.resize(20);
+        for(int i=0;i<20;++i)
+            bit[i].resize((1<<(i+1)) + 1);
+    }
+
+    void insert(int x)
+    {
+        for(int i=0;i<20;++i)
+        {
+            int u = x % (1<<(i+1));
+            int sz = (1<<(i+1));
+            for(int j=u+1;j<=sz;j+=j&-j)
+            {
+                ++bit[i][j];
+            }
+        }
+    }
+    void erase(int x)
+    {
+        for(int i=0;i<20;++i)
+        {
+            int u = x % (1<<(i+1));
+            int sz = (1<<(i+1));
+            for(int j=u+1;j<=sz;j+=j&-j)
+                --bit[i][j];
+        }
+    }
+    int get(int i,int r)
+    {
+        int ans = 0;
+        while(r)
+        {
+            ans += bit[i][r];
+            r -= r & -r;
+        }
+        return ans;
+    }
+    int query(int l)
+    {
+        int ans = 0;
+        for(int i=0;i<20;++i)
+        {
+            int u = l % (1<<(i+1));
+            int sz = (1<<(i+1));
+            int cnt = 0;
+            if(u + (1<<i) < sz)
+                cnt = get(i,sz) - (get(i,u + (1<<i)) - get(i,u));
+            else
+                cnt = get(i,u) - get(i,(u + (1<<i))%sz);
+            if(cnt&1)
+                ans += (1<<i);
+        }
+        return ans;
+    }
+}ok;
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>add_xor</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
