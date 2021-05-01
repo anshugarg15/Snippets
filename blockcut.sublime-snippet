@@ -1,0 +1,107 @@
+<snippet>
+	<content><![CDATA[
+struct BCT
+{
+    int n;
+    vector<vector<int>> g;
+    vector<bool> cut;
+    vector<int> comp;
+
+    BCT(){}
+
+    BCT(int N): n(N) {
+        g.resize(N+1);
+        cut.resize(N+1,0);
+        comp.resize(N+1);
+        iota(all(comp),0);
+    }
+
+    void add_edge(int x,int y) {
+        g[x].push_back(y),g[y].push_back(x);
+    }
+
+    vector<vector<int>> biconnected_comps()
+    {
+        vector<bool> vis(n+1);
+        vector<int> dep(n+1),low(n+1);
+        vector<int> st;
+
+        vector<vector<int>> cmp;
+
+        function<void(int,int)> dfs = [&](int s,int p)
+        {
+            vis[s] = true;
+            st.push_back(s);
+            int cnt = 0;
+            low[s] = dep[s];
+            for(auto j:g[s])
+            {
+                if(j == p)
+                    continue;
+                if(vis[j])
+                    low[s] = min(low[s],dep[j]);
+                else
+                {
+                    dep[j] = dep[s] + 1;
+                    dfs(j,s);
+                    low[s] = min(low[s],low[j]);
+                    if(low[j] >= dep[s])
+                    {
+                        ++cnt;
+                        cmp.push_back({s});
+                        if(p || cnt >= 2)
+                            cut[s] = true;
+                        while(st.back() != j)
+                        {
+                            cmp.back().push_back(st.back());
+                            st.pop_back();
+                        }
+                        st.pop_back();
+                        cmp.back().push_back(j);
+                    }
+                }
+            }
+        };
+        dfs(1,0);
+        return cmp;
+    }
+
+    int build(vector<vector<int>> &g)
+    {
+        int cur = n+1;
+        auto f = biconnected_comps();
+        g.resize(n + f.size() + 2);
+        for(auto &j:f)
+        {
+            for(auto &i:j)
+            {
+                if(!cut[i])
+                    comp[i] = cur;
+                if(cut[i])
+                    g[cur].push_back(i),g[i].push_back(cur);
+            }
+            ++cur;
+        }
+        return --cur;
+    }
+
+    bool is_cut(int u)
+    {
+        if(u <= n)
+            return cut[u];
+        return false;
+    }
+
+    int& operator[](int u) {
+        if(u > comp.size())
+            assert(false);
+        return comp[u];
+    }
+}bct;
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>blockcut</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

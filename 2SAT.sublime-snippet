@@ -1,0 +1,78 @@
+<snippet>
+	<content><![CDATA[
+struct SAT
+{
+    int n;
+    vector<int> a;
+    vector<vector<int>> g,rg;
+
+    SAT(){}
+
+    SAT(int n_):n(n_)
+    {
+        a.resize(2*n+2);
+        g.resize(2*n+2);
+        rg.resize(2*n+2);
+    }
+    void add_edge(int x,int y,bool negx,bool negy)
+    {
+        x *= 2,y *= 2;
+        if(negx)
+            x ^= 1;
+        if(negy)
+            y ^= 1;
+        g[x].push_back(y);
+        g[y^1].push_back(x^1);
+        rg[y].push_back(x);
+        rg[x^1].push_back(y^1);
+    }
+
+    vector<int> solve()
+    {
+        vector<int> order;
+        vector<bool> vis(2*n+1,0);
+        vector<int> comp(2*n+1,0);
+        function<void(int)> dfs1 = [&](int u)
+        {
+            vis[u] = true;
+            for(auto j:g[u])
+                if(!vis[j])
+                    dfs1(j);
+            order.push_back(u);
+        };
+        for(int i=1;i<=2*n;++i)
+            if(!vis[i])
+                dfs1(i);
+        reverse(order.begin(),order.end());
+        int cur = 1;
+
+        function<void(int,int)> dfs = [&](int u,int cmp)
+        {
+            comp[u] = cmp;
+            for(auto j:rg[u])
+                if(comp[j] == 0)
+                    dfs(j,cmp);
+        };
+        for(int i:order)
+        {
+            if(comp[i] == 0)
+                dfs(i,cur++);
+        }
+        vector<int> ans(n+1);
+        for(int i=1;i<=n;++i)
+        {
+            int j = i * 2;
+            if(comp[j] == comp[j+1])
+                return {-1};
+            ans[i] = comp[j] > comp[j+1];
+        }
+        return ans;
+    }
+};
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>2SAT</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
