@@ -1,0 +1,84 @@
+<snippet>
+	<content><![CDATA[
+
+template <typename A, typename B>
+string to_string(pair<A, B> p);
+string to_string(const string& s) {
+    return '"' + s + '"';
+}
+string to_string(const char* s) {
+    return to_string((string) s);
+}
+string to_string(bool b) {
+    return (b ? "true" : "false");
+}
+string to_string(char c) {
+    string t = "'" + string(1,c) + "'";
+    return t;
+}
+string to_string(vector<bool> v) {
+    bool first = true;
+    string res = "{";
+    for (int i = 0; i < static_cast<int>(v.size()); i++) {
+        if (!first) {
+            res += ", ";
+        }
+        first = false;
+        res += to_string(v[i]);
+    }
+    res += "}";
+    return res;
+}
+template <size_t N>
+string to_string(bitset<N> v) {
+    string res = "";
+    for(size_t i = 0; i < N; i++) {
+        res += static_cast<char>('0' + v[i]);
+    }
+    return res;
+}
+// iterable containers
+template <typename A>
+string to_string(A v) {
+    bool first = true;
+    string res = "{";
+    for(const auto &x : v) {
+        if (!first) {
+            res += ", ";
+        }
+        first = false;
+        res += to_string(x);
+    }
+    res += "}";
+    return res;
+}
+template <typename A, typename B>
+string to_string(pair<A, B> p) {
+    return "(" + to_string(p.first) + ", " + to_string(p.second) + ")";
+}
+
+
+template<typename T>
+void debug_out(const char* name, T&& x) { 
+    cerr << "[" << name << "] : " << to_string(x) << endl; 
+}
+template <typename H, typename... T>
+void debug_out(const char* names, H&& arg1, T&&... args){
+    const char* comma = strchr(names + 1, ',');
+    cerr << "[";
+    cerr.write(names, comma - names) << "] : " << to_string(arg1) <<"\n";
+    debug_out(comma+1, args...);
+}
+#define LOCAL
+#ifdef LOCAL
+#define debug(...) debug_out(#__VA_ARGS__, __VA_ARGS__)
+#else
+#define debug(...) 2400
+#endif
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>DEBUG</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
