@@ -69,7 +69,6 @@ void debug_out(const char* names, H&& arg1, T&&... args){
     cerr.write(names, comma - names) << "] : " << to_string(arg1) <<"\n";
     debug_out(comma+1, args...);
 }
-#define LOCAL
 #ifdef LOCAL
 #define debug(...) debug_out(#__VA_ARGS__, __VA_ARGS__)
 #else
