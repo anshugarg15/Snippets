@@ -11,20 +11,22 @@ using namespace std ;
 #define S               second
 #define INF             2000000000000000000
 #define popcount(x)     __builtin_popcountll(x)
-#define pll             pair<ll,ll> 
+#define pll             pair<ll,ll>
 #define pii             pair<int,int>
 #define ld              long double
 
 const int M = 1000000007;
 const int MM = 998244353;
-const long double PI = acos(-1);
 
 template<typename T, typename U> static inline void amin(T &x, U y){ if(y<x) x=y; }
 template<typename T, typename U> static inline void amax(T &x, U y){ if(x<y) x=y; }
-template<typename T, typename U> ostream& operator<<(ostream &os, const pair<T, U> &p)
-{ 
-    return os<<'('<<p.F<< ","<<p.S<<')'; 
-}
+
+#ifdef LOCAL
+#define debug(...) debug_out(#__VA_ARGS__, __VA_ARGS__)
+#else
+#define debug(...) 2351
+#endif
+
 
 int _runtimeTerror_()
 {
