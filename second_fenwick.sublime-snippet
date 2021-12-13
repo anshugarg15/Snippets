@@ -1,0 +1,55 @@
+<snippet>
+	<content><![CDATA[
+template<typename T=long long>
+struct fenwick {
+    vector<T> bit;
+    int n;
+    fenwick(int x) {
+        n = x;
+        bit.resize(x + 1, T(0));
+    }
+    void update(int j,T val)
+    {
+        for(;j<=n;j+=j&-j)
+            bit[j] += val;
+    }
+    T get(int r)
+    {
+        T u = 0;
+        for(;r;r-=r&-r)
+            u += bit[r]; 
+        return u;
+    }
+    T query(int l,int r)
+    {
+        return get(r)-get(l-1);
+    }
+    // kth element
+    int getKth(T k) {
+        int ans = 0;
+        T cnt = 0;
+        for(int i=20;i>=0;--i) {
+            if(ans + (1 << i) <= n && cnt + bit[ans + (1 << i)] < k) {
+                ans += (1 << i);
+                cnt += bit[ans];
+            }
+        }
+        if(ans == n) {
+            return -1;
+        }
+        return ans + 1;
+    }
+    void insert(int x) {
+        update(x, 1);
+    }
+    void erase(int x) {
+        update(x, -1);
+    }
+};
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>second_fenwick</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
