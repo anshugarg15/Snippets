@@ -12,7 +12,6 @@ struct EERTREE {
     map<char, int> to[SZ];
 
     // Extra variables here to be stored in states of tree
-    Mint sans[SZ];
 
     EERTREE() {
         len[1] = -1, link[1] = 0;
