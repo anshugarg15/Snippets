@@ -1,0 +1,59 @@
+<snippet>
+	<content><![CDATA[
+const int SZ = 1e5+10;
+// SZ = length of string + 10
+struct EERTREE {
+
+    int len[SZ], link[SZ], slink[SZ], diff[SZ];
+    char s[SZ];
+
+    int last, sz, n;
+
+    map<char, int> to[SZ];
+
+    // Extra variables here to be stored in states of tree
+    Mint sans[SZ];
+
+    EERTREE() {
+        len[1] = -1, link[1] = 0;
+        len[0] = 0, link[0] = 1;
+        last = 0;
+        sz = 2;
+        s[0] = -1;
+        // to make sure that link works correctly if on adding ith char, i-1 th prefix is palindrome
+        n = 1;
+    }
+
+    void addChar(char c) {
+        s[n++] = c;
+        while(s[n - 1] != s[n - 2 - len[last]]) {
+            last = link[last];
+        }
+        if(!to[last].count(c)) {
+            int tmp = link[last];
+            while(s[n - 1] != s[n - 2 - len[tmp]]) {
+                tmp = link[tmp];
+            }
+            // must have been present
+            link[sz] = to[tmp][c];
+            len[sz] = len[last] + 2;
+            diff[sz] = len[sz] - len[link[sz]];
+            if(diff[sz] == diff[link[sz]]) {
+                slink[sz] = slink[link[sz]];
+            }
+            else {
+                slink[sz] = link[sz];
+            }
+            to[last][c] = sz++;
+        }   
+        last = to[last][c];
+        // do cnt[last]++ if need to count occurences
+    }
+}pt;
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>EERTREE</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
