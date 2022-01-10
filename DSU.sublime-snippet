@@ -1,0 +1,46 @@
+<snippet>
+	<content><![CDATA[
+struct DSU {
+    int n, cmps;
+    vector<int> p, sub;
+    DSU(int n_) {
+        n = n_;
+        cmps = n;
+        p.resize(n+1);
+        sub.resize(n+1, 1);
+        iota(p.begin(), p.end(), 0);
+    }
+    int parent(int i) {
+        assert(i <= n);
+        return p[i] = (p[i] == i ? i : parent(p[i]));
+    }
+    bool merge(int x, int y) {
+        assert(x <= n && y <= n);
+        x = parent(x), y = parent(y);
+        if(x == y) {
+            return false;
+        }
+        --cmps;
+        if(sub[x] > sub[y]) {
+            swap(x, y);
+        }
+        sub[y] += sub[x];
+        p[x] = y;
+        return true;
+    }
+    void clear() {
+        cmps = n;
+        iota(p.begin(), p.end(), 0);
+        sub.assign(n+1, 1);
+    }
+    int operator[](int i) {
+        return parent(i);
+    }
+};
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>DSU</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
