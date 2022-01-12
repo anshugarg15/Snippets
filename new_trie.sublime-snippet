@@ -16,22 +16,13 @@ struct TRIE {
         int tmp = root;
         ++cnt[tmp];
         for(int i=B;i>=0;--i) {
-            if(x & (1LL << i)) {
-                if(next[tmp][1] == -1) {
-                    next[tmp][1] = cur++;
-                    next.push_back({-1, -1});
-                    cnt.push_back(0);
-                }
-                tmp = next[tmp][1];
+            int t = (x >> i) & 1;
+            if(next[tmp][t] == -1) {
+                next[tmp][t] = cur++;
+                next.push_back({-1, -1});
+                cnt.push_back(0);
             }
-            else {
-                if(next[tmp][0] == -1) {
-                    next[tmp][0] = cur++;
-                    next.push_back({-1, -1});
-                    cnt.push_back(0);
-                }
-                tmp = next[tmp][0];
-            }
+            tmp = next[tmp][t];
             ++cnt[tmp];
         }
     }
@@ -39,12 +30,7 @@ struct TRIE {
         int tmp = root;
         --cnt[tmp];
         for(int i=B;i>=0;--i) {
-            if(x & (1LL << i)) {
-                tmp = next[tmp][1];
-            }
-            else {
-                tmp = next[tmp][0];
-            }
+            tmp = next[tmp][(x >> i) & 1];
             --cnt[tmp];
         }
     }
@@ -55,23 +41,13 @@ struct TRIE {
             return -1;
         }
         for(int i=B;i>=0;--i) {
-            if(x & (1LL << i)) {
-                if(next[tmp][0] != -1 && cnt[next[tmp][0]] > 0) {
-                    tmp = next[tmp][0];
-                    ans += 1LL << i;
-                }
-                else {  
-                    tmp = next[tmp][1];
-                }
+            int t = (x >> i) & 1;
+            if(next[tmp][1 - t] != -1 && cnt[next[tmp][1 - t]] > 0) {
+                tmp = next[tmp][1 - t];
+                ans += 1LL << i;
             }
             else {
-                if(next[tmp][1] != -1 && cnt[next[tmp][1]] > 0) {
-                    tmp = next[tmp][1];
-                    ans += 1LL << i;
-                }
-                else {  
-                    tmp = next[tmp][0];
-                }
+                tmp = next[tmp][t];
             }
         }
         return ans;
