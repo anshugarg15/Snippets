@@ -15,16 +15,13 @@ using namespace std ;
 #define pii             pair<int,int>
 #define ld              long double
 
-const int M = 1000000007;
-const int MM = 998244353;
-
-template<typename T, typename U> static inline void amin(T &x, U y){ if(y<x) x=y; }
-template<typename T, typename U> static inline void amax(T &x, U y){ if(x<y) x=y; }
+template<typename T, typename U> static inline void amin(T &x, U y){ if(y < x) x = y; }
+template<typename T, typename U> static inline void amax(T &x, U y){ if(x < y) x = y; }
 
 #ifdef LOCAL
 #define debug(...) debug_out(#__VA_ARGS__, __VA_ARGS__)
 #else
-#define debug(...) 2351
+#define debug(...) 2401
 #endif
 
 
@@ -41,12 +38,13 @@ int main()
         sieve();
     #endif
     #ifdef NCR
-        initialize();
+        initncr();
     #endif
-    int TESTS=1;
-    ${1:TESTS}cin>>TESTS;
-    while(TESTS--)
+    int TESTS = 1;
+    ${1:TESTS}cin >> TESTS;
+    while(TESTS--) {
         _runtimeTerror_();
+    }
     return 0;
 }
 ]]></content>
