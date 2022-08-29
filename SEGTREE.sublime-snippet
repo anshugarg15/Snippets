@@ -8,7 +8,7 @@ struct node
 struct SEGTREE
 {
 	ll a[N];
-	SEGTREE(){ mem0(a); }
+	SEGTREE(){ }
 	node tree[4*N];
 	ll lazy[4*N];
 	inline node combine(node a,node b)
