@@ -1,7 +1,7 @@
 # Lab Task-4: Part-of-Speech (POS) Tagging, Chunking and Named Entity Recognition (NER) using RNN and Bi-LSTM.
 //
 ## The Lab-project consists of a main folder named as 
-19074045-Megha-Agarwal which consists of three sub-folders –
+19074045- which consists of three sub-folders –
 
    * **Chunking**
         * Chunking_RNN – 
