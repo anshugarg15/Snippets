@@ -121,3 +121,4 @@ NER, using RNN got 99.54% accuracy and using Bi-lstm got 97.11% accuracy.
   - POS : 93-94% 
 
  Our present accuracies using Bi-LSTM and RNN are far better than the ones using CRF++.
+ //
